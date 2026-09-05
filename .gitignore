@@ -1,0 +1,49 @@
+# Environment variables and secrets
+.env
+*.env
+!.env.example
+
+# Python Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+backend/venv/
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Databases and Local Storage
+*.db
+*.sqlite
+*.sqlite3
+disaster_app.db
+backend/disaster_app.db
+
+# ChromaDB local persistence
+chroma_db/
+backend/chroma_db/
+
+# Downloaded Datasets & Models
+HumAID/
+models_cache/
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.dist/
+
+# Node / React Frontend (for Phase 6)
+node_modules/
+dist/
+build/
