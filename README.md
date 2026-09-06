@@ -62,7 +62,22 @@ flowchart TD
 
 ---
 
-## 2. Directory Structure
+## 2. Dashboard Interface & Visual Showcase
+
+### Interactive Geospatial Command Center
+![VeriAlert Geospatial Command Center](docs/assets/dashboard_overview.png)
+*Real-time incident feed, Leaflet DarkMatter mapping, calamity filter pills, and veracity color-coded pulsing markers (Green: Verified, Amber: Developing, Red: Disputed).*
+
+<br>
+
+| Mathematical Veracity Audit Modal | End-to-End Multi-Agent Telemetry |
+| :---: | :---: |
+| ![Mathematical Trust Audit Breakdown](docs/assets/veracity_modal_audit.png) | ![Pipeline Stepper & Telemetry](docs/assets/pipeline_execution.png) |
+| *Deep-dive modal displaying T5 factual emergency advisory alongside the mathematical trust formula breakdown ($S_{\text{auth}}$, $C_{\text{corrob}}$, Penalty) for viva defense.* | *Real-time 5-stage stepper (Ingestion $\rightarrow$ Classification $\rightarrow$ Geocoding $\rightarrow$ NLI Veracity $\rightarrow$ Summarization) with live terminal logs.* |
+
+---
+
+## 3. Directory Structure
 
 ```text
 VeriAlert/
@@ -73,6 +88,8 @@ VeriAlert/
 ├── start.bat                       # 1-click Windows CMD startup script
 ├── start.ps1                       # 1-click Windows PowerShell startup script
 ├── README.md                       # Comprehensive project documentation
+├── docs/
+│   └── assets/                     # UI screenshots and visual demonstration assets
 └── backend/
     ├── app/
     │   ├── celery_app.py           # Celery application & beat scheduler (15-min recurring)
@@ -114,7 +131,7 @@ VeriAlert/
 
 ---
 
-## 3. Quick Start (Single-Command Launch)
+## 4. Quick Start (Single-Command Launch)
 
 The framework is 100% free and runs locally without paid cloud accounts.
 
@@ -179,7 +196,7 @@ This single command:
 
 ---
 
-## 4. MOCK Data Justification & Defense Table
+## 5. MOCK Data Justification & Defense Table
 
 To satisfy real-world robustness without introducing fragile, paid, or ToS-restricted dependencies, specific components use simulated feeds. Each mock strictly mirrors the exact target production schema (`{id, source, source_type, timestamp, location_text, raw_text, url, is_mock}`):
 
@@ -193,9 +210,9 @@ To satisfy real-world robustness without introducing fragile, paid, or ToS-restr
 
 ---
 
-## 5. Fine-Tuned AI Models & Evaluation Metrics
+## 6. Fine-Tuned AI Models & Evaluation Metrics
 
-### 5.1. Relevance Classifier (`distilroberta-base`)
+### 6.1. Relevance Classifier (`distilroberta-base`)
 - **Dataset**: Fine-tuned on the peer-reviewed **HumAID** (Humanitarian Aid Disaster) dataset containing annotated disaster tweets and news reports across 10 distinct calamity categories.
 - **Evaluation Metrics on Held-Out Test Set**:
   - **Accuracy**: `91.4%`
@@ -204,22 +221,22 @@ To satisfy real-world robustness without introducing fragile, paid, or ToS-restr
   - **Recall**: `0.880`
 - **0.55 Confidence Cutoff Rationale**: A threshold of `0.55` was selected after validation curve analysis. It aggressively filters metaphorical uses (e.g., *"an earthquake in the stock market"*, *"a flood of emails"*) while preserving low-confidence breaking disaster reports for subsequent entity resolution.
 
-### 5.2. Cross-Source Veracity Verifier (`DeBERTa-v3-base`)
+### 6.2. Cross-Source Veracity Verifier (`DeBERTa-v3-base`)
 - **Model**: `MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli` (Hugging Face).
 - **Design Choice**: Used as a zero-shot cross-claim Natural Language Inference (NLI) engine. Trained on MNLI, FEVER, and Adversarial NLI (ANLI), it excels at identifying logical *Entailment*, *Neutral*, and *Contradiction* between pairs of claims without overfitting to specific incident phrasing.
 
-### 5.3. Factual Alert Summarizer (`t5-small`)
+### 6.3. Factual Alert Summarizer (`t5-small`)
 - **Model**: Lightly adapted `t5-small` utilizing structured prefix prompts:
   `summarize disaster advisory: [Event] at [Location]. [Cross-Source Member Texts]`
 - **Hallucination Mitigation**: Uses temperature `0.3`, length constraints of 1–2 sentences (30–65 tokens), and repetition penalty `1.2` to ensure outputs are strictly grounded in corroborated reporting.
 
 ---
 
-## 6. Deterministic Mathematical Trust Formula
+## 7. Deterministic Mathematical Trust Formula
 
 The platform computes a mathematically auditable trust score for every incident cluster:
 
-$$\text{Trust} = (w_{\text{source}} \cdot S_{\text{auth}}) + (w_{\text{corrob}} \cdot \text{Corrob\_Factor}) - \text{Penalty}_{\text{contradiction}}$$
+$$\text{Trust} = (w_{\text{source}} \cdot S_{\text{auth}}) + (w_{\text{corrob}} \cdot C_{\text{corrob}}) - P_{\text{contradiction}}$$
 
 ### Parameters & Weights
 1. **Source Authority ($S_{\text{auth}}$)** ($w_{\text{source}} = 0.50$):
@@ -227,10 +244,10 @@ $$\text{Trust} = (w_{\text{source}} \cdot S_{\text{auth}}) + (w_{\text{corrob}} 
    - Tier-1 Global/National Wire Services (BBC, Reuters, The Hindu, Times of India): `0.86 – 0.90`
    - Regional Media & Web Ingestion (GDELT, NewsAPI): `0.70 – 0.80`
    - Crowdsourced Social Media (Reddit): `0.45`
-2. **Independent Corroboration ($\text{Corrob\_Factor}$)** ($w_{\text{corrob}} = 0.50$):
-   $$\text{Corrob\_Factor} = \min\left(1.0, \frac{\log_{10}(N_{\text{indep}})}{\log_{10}(4)}\right) \quad \text{for } N_{\text{indep}} \ge 2 \quad (\text{strictly } 0 \text{ for } N_{\text{indep}} = 1)$$
+2. **Independent Corroboration ($C_{\text{corrob}}$)** ($w_{\text{corrob}} = 0.50$):
+   $$C_{\text{corrob}} = \min\left(1.0, \frac{\log_{10}(N_{\text{indep}})}{\log_{10}(4)}\right) \quad \text{for } N_{\text{indep}} \ge 2 \quad (\text{strictly } 0 \text{ for } N_{\text{indep}} = 1)$$
    *(4 or more independent outlets achieve 100% corroboration saturation).*
-3. **Contradiction Penalty ($\text{Penalty}_{\text{contradiction}}$)**:
+3. **Contradiction Penalty ($P_{\text{contradiction}}$)**:
    - `-0.35` deducted if DeBERTa-v3 detects direct factual or numerical contradiction.
    - `-0.15` deducted if NLI agreement score $< 60\%$.
    - `0.00` if consensus is maintained.
@@ -243,7 +260,7 @@ $$\text{Trust} = (w_{\text{source}} \cdot S_{\text{auth}}) + (w_{\text{corrob}} 
 
 ---
 
-## 7. REST API Reference
+## 8. REST API Reference
 
 | Method | Endpoint | Description | Query Parameters |
 | :--- | :--- | :--- | :--- |
@@ -259,7 +276,7 @@ $$\text{Trust} = (w_{\text{source}} \cdot S_{\text{auth}}) + (w_{\text{corrob}} 
 
 ---
 
-## 8. Viva & Panel Defense Guide
+## 9. Viva & Panel Defense Guide
 
 During your examination or live evaluation:
 
@@ -282,7 +299,7 @@ During your examination or live evaluation:
 
 ---
 
-## 9. Known Limitations & Future Scope
+## 10. Known Limitations & Future Scope
 
 - **Rate Limits on Free Geocoding**: OpenStreetMap Nominatim enforces a strict 1 request/second policy. While mitigated using 2-tier Redis + disk caching, enterprise production would utilize an offline PostGIS gazetteer.
 - **Regional Indian Languages**: Current pipeline processes English texts. Future iterations will integrate IndicBERT/XLM-RoBERTa for native Hindi, Bengali, Tamil, and Marathi emergency broadcasts.
