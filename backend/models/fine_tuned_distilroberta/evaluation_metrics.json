@@ -1,0 +1,27 @@
+{
+  "metrics": {
+    "eval_loss": 0.37560105323791504,
+    "eval_accuracy": 0.8925,
+    "eval_f1": 0.894993894993895,
+    "eval_f1_macro": 0.8924393290590473,
+    "eval_precision": 0.8788968824940048,
+    "eval_recall": 0.9116915422885572,
+    "eval_confusion_matrix": [
+      [
+        695,
+        101
+      ],
+      [
+        71,
+        733
+      ]
+    ],
+    "eval_runtime": 1.1342,
+    "eval_samples_per_second": 1410.729,
+    "eval_steps_per_second": 44.085,
+    "epoch": 3.0
+  },
+  "training_time_seconds": 70.4342725276947,
+  "train_samples": 6400,
+  "test_samples": 1600
+}

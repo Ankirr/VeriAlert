@@ -19,9 +19,9 @@ logging.basicConfig(
 logger = logging.getLogger("Phase1Runner")
 
 async def main():
-    logger.info("==================================================")
-    logger.info("  PHASE 1: DISASTER DATA COLLECTION & NORMALIZATION")
-    logger.info("==================================================")
+    logger.info("=" * 65)
+    logger.info("  PHASE 1: MULTI-SOURCE DISASTER DATA INGESTION & NORMALIZATION")
+    logger.info("=" * 65)
 
     # Step 1: Initialize Database Tables
     logger.info("1. Initializing database schema...")
@@ -30,37 +30,59 @@ async def main():
     # Step 2: Execute Collector Services
     manager = CollectorManager()
     async with AsyncSessionLocal() as session:
-        logger.info("2. Running collectors (2 Real: RSS + News, 2 Mock: Gov + Social)...")
+        logger.info("2. Executing 5 Modular Collectors...")
+        logger.info("   a) NewsAPI (Live with API key)")
+        logger.info("   b) GDELT (Live free news backup/supplement)")
+        logger.info("   c) Reddit (PRAW with graceful mock fallback)")
+        logger.info("   d) IMD RSS (Official weather bulletins labeled MOCK)")
+        logger.info("   e) NDMA Sachet (Official disaster alerts labeled MOCK)")
+
         summary = await manager.run_all_collectors(session)
         
-        logger.info("--------------------------------------------------")
-        logger.info(f"Ingestion Result Summary:")
-        logger.info(f"  - Total Collected: {summary['total_collected']}")
-        logger.info(f"  - Saved to DB: {summary['saved_to_db']}")
+        logger.info("-" * 65)
+        logger.info("Ingestion Result Summary:")
+        logger.info(f"  - Total Collected:    {summary['total_collected']}")
+        logger.info(f"  - Saved to DB:        {summary['saved_to_db']}")
         logger.info(f"  - Duplicates Skipped: {summary['duplicates_skipped']}")
-        logger.info(f"  - Breakout by Source Type:")
-        for stype, count in summary['counts_by_source_type'].items():
-            logger.info(f"      * {stype}: {count} items")
-        logger.info("--------------------------------------------------")
+        logger.info("  - Breakdown by Collector Source:")
+        for col, count in summary.get('counts_by_collector', {}).items():
+            logger.info(f"      * {col:<24}: {count} items")
+        logger.info("  - Breakdown by Source Type:")
+        for stype, count in summary.get('counts_by_source_type', {}).items():
+            logger.info(f"      * {stype:<12}: {count} items")
+        logger.info("-" * 65)
 
         # Step 3: Query and Inspect DB Records to Verify Schema
-        logger.info("3. Verifying database records...")
-        stmt = select(RawDisasterItemModel).order_by(RawDisasterItemModel.timestamp.desc())
+        logger.info("3. Querying stored database records to verify unified schema...")
+        stmt = select(RawDisasterItemModel).order_by(RawDisasterItemModel.is_mock.asc(), RawDisasterItemModel.timestamp.desc())
         result = await session.execute(stmt)
         stored_items = result.scalars().all()
 
-        logger.info(f"Retrieved {len(stored_items)} raw items from database:")
+        real_count = sum(1 for item in stored_items if not item.is_mock)
+        mock_count = sum(1 for item in stored_items if item.is_mock)
+
+        logger.info(f"Total Stored in Database: {len(stored_items)} (Real: {real_count}, Mock: {mock_count})")
+        logger.info("\n" + "=" * 65)
+        logger.info("  SAMPLE OF 10 STORED DISASTER ITEMS (UNIFIED 8-FIELD SCHEMA)")
+        logger.info("=" * 65)
+
         for idx, item in enumerate(stored_items[:10], start=1):
-            logger.info(f"  [{idx}] Source: {item.source} ({item.source_type})")
-            logger.info(f"      Title: {item.title}")
-            logger.info(f"      Location: {item.location_name} (Lat: {item.latitude}, Lon: {item.longitude})")
-            logger.info(f"      Timestamp: {item.timestamp}")
-            logger.info(f"      URL: {item.url}")
-            logger.info(f"      Metadata Keys: {list(item.raw_metadata.keys()) if item.raw_metadata else []}")
-            logger.info("      " + "-"*40)
+            mock_flag = "[MOCK]" if item.is_mock else "[REAL]"
+            print(f"\n--- Item #{idx} {mock_flag} ---")
+            print(f"  ID:            {item.id}")
+            print(f"  Source:        {item.source}")
+            print(f"  Source Type:   {item.source_type}")
+            print(f"  Timestamp:     {item.timestamp}")
+            print(f"  Location Text: {item.location_text or '(None - to be enriched in Phase 3)'}")
+            print(f"  URL:           {item.url}")
+            print(f"  Is Mock:       {item.is_mock}")
+            raw_preview = item.raw_text.replace('\n', ' ')[:140]
+            print(f"  Raw Text:      {raw_preview}...")
 
         assert len(stored_items) > 0, "Database should contain ingested disaster items!"
+        logger.info("\n" + "=" * 65)
         logger.info("SUCCESS: Phase 1 execution completed and verified!")
+        logger.info("=" * 65)
 
 if __name__ == "__main__":
     asyncio.run(main())

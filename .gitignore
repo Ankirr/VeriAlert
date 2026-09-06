@@ -31,10 +31,17 @@ backend/chroma_db/
 # Downloaded Datasets & Models
 HumAID/
 models_cache/
+checkpoints/
+**/checkpoints/
 *.bin
 *.safetensors
 *.pt
 *.pth
+
+# Logs
+*.log
+logs/
+backend/logs/
 
 # OS and IDE files
 .DS_Store

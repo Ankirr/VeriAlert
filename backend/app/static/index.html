@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeriAlert — Multi-Agent Disaster Intelligence & Veracity Verification Platform</title>
+  <meta name="description" content="Real-time multi-agent disaster aggregation, geo-extraction, NLI-based cross-source veracity verification, and factual emergency alert delivery.">
+  
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="/static/style.css?v=1.2">
+</head>
+<body>
+  <!-- Top Navigation Command Bar -->
+  <header class="top-nav">
+    <div class="brand">
+      <div class="logo-icon">
+        <i class="fa-solid fa-satellite-dish fa-spin" style="--fa-animation-duration: 12s;"></i>
+      </div>
+      <div class="brand-text">
+        <h1>VeriAlert</h1>
+        <span class="subtext">Multi-Agent Disaster Intelligence & Veracity Engine</span>
+      </div>
+    </div>
+
+    <!-- Disaster Type Quick Filter Pills -->
+    <div class="filter-pills" id="calamityFilterPills">
+      <button class="pill active" data-type="all">All Hazards</button>
+      <button class="pill" data-type="flood"><i class="fa-solid fa-water"></i> Floods</button>
+      <button class="pill" data-type="landslide"><i class="fa-solid fa-mountain"></i> Landslides</button>
+      <button class="pill" data-type="cyclone"><i class="fa-solid fa-hurricane"></i> Cyclones</button>
+      <button class="pill" data-type="earthquake"><i class="fa-solid fa-house-crack"></i> Earthquakes</button>
+      <button class="pill" data-type="heatwave"><i class="fa-solid fa-temperature-high"></i> Heatwaves</button>
+    </div>
+
+    <!-- Header Actions & Real-Time Status -->
+    <div class="nav-actions">
+      <button class="btn-run-pipeline" id="btnRunPipeline" title="Trigger Full End-to-End Pipeline (Phases 1-5)">
+        <i class="fa-solid fa-play"></i>
+        <span>Run Pipeline</span>
+      </button>
+
+      <div class="nav-status">
+        <div class="status-indicator">
+          <span class="pulsing-dot green" id="statusPulsingDot"></span>
+          <span class="status-label" id="orchestratorStatusLabel">PIPELINE READY</span>
+        </div>
+        <div class="time-display" id="timeDisplay">--:--:-- UTC</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container: Split View (Sidebar Feed + Leaflet Map) -->
+  <main class="main-layout">
+    <!-- Left Sidebar: KPIs & Incident Feed -->
+    <aside class="sidebar-panel">
+      <!-- KPI Stats Grid -->
+      <section class="kpi-grid">
+        <div class="kpi-card" id="kpiTotal">
+          <div class="kpi-header">
+            <span class="kpi-title">Active Incidents</span>
+            <i class="fa-solid fa-bolt text-blue"></i>
+          </div>
+          <div class="kpi-value" id="statTotalClusters">--</div>
+          <div class="kpi-sub" id="statTotalReports">-- underlying reports</div>
+        </div>
+
+        <div class="kpi-card" id="kpiVerified">
+          <div class="kpi-header">
+            <span class="kpi-title">Verified Alerts</span>
+            <i class="fa-solid fa-shield-check text-green"></i>
+          </div>
+          <div class="kpi-value text-green" id="statVerified">--</div>
+          <div class="kpi-sub">Multi-source / Official</div>
+        </div>
+
+        <div class="kpi-card" id="kpiCredible">
+          <div class="kpi-header">
+            <span class="kpi-title">Developing</span>
+            <i class="fa-solid fa-clock-rotate-left text-amber"></i>
+          </div>
+          <div class="kpi-value text-amber" id="statCredible">--</div>
+          <div class="kpi-sub">Single news outlet</div>
+        </div>
+
+        <div class="kpi-card" id="kpiDisputed">
+          <div class="kpi-header">
+            <span class="kpi-title">Disputed</span>
+            <i class="fa-solid fa-triangle-exclamation text-red"></i>
+          </div>
+          <div class="kpi-value text-red" id="statDisputed">--</div>
+          <div class="kpi-sub">Fact/number clashes</div>
+        </div>
+      </section>
+
+      <!-- Feed Controls: Search & Region / Veracity Filter -->
+      <div class="feed-controls">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Search city, state, river, or disaster...">
+        </div>
+        
+        <div class="select-row">
+          <div class="select-box">
+            <select id="regionSelect">
+              <option value="all">All Regions / States</option>
+            </select>
+          </div>
+
+          <div class="select-box">
+            <select id="veracitySelect">
+              <option value="all">All Veracity Bands</option>
+              <option value="VERIFIED">Verified Only (>=0.75)</option>
+              <option value="CREDIBLE">Developing / Credible</option>
+              <option value="UNVERIFIED">Crowdsourced / Unverified</option>
+              <option value="DISPUTED">Disputed Conflicts</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Incident Clusters List Header -->
+      <div class="incident-list-header">
+        <span class="count-indicator"><strong id="visibleCount">--</strong> Incidents Shown</span>
+        <button class="btn-refresh" id="btnRefresh" title="Refresh Live Data"><i class="fa-solid fa-rotate"></i></button>
+      </div>
+
+      <!-- Incident Feed Cards -->
+      <div class="incident-feed" id="incidentFeed">
+        <div class="feed-loading">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> Loading live disaster intelligence...
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Panel: Interactive Leaflet Map -->
+    <section class="map-panel">
+      <div id="disasterMap"></div>
+
+      <!-- Map Floating Overlay: Legend & Controls -->
+      <div class="map-legend">
+        <h4><i class="fa-solid fa-layer-group"></i> Veracity Legend</h4>
+        <div class="legend-item">
+          <span class="marker-dot green-dot"></span>
+          <span>Verified (Multi-Source / Official)</span>
+        </div>
+        <div class="legend-item">
+          <span class="marker-dot amber-dot"></span>
+          <span>Credible (Single Source - Developing)</span>
+        </div>
+        <div class="legend-item">
+          <span class="marker-dot red-dot"></span>
+          <span>Disputed (Conflicting Reports)</span>
+        </div>
+        <div class="legend-item">
+          <span class="marker-dot grey-dot"></span>
+          <span>Unverified (Crowdsourced)</span>
+        </div>
+      </div>
+
+      <button class="btn-reset-map" id="btnResetMap" title="Reset Map View">
+        <i class="fa-solid fa-crosshairs"></i> Reset View
+      </button>
+    </section>
+  </main>
+
+  <!-- Deep-Dive Modal for Incident Intel & Veracity Proof -->
+  <div class="modal-backdrop" id="incidentModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-tag" id="modalDisasterType">FLOOD</span>
+          <h2 id="modalEventName">Incident Title</h2>
+          <div class="modal-meta-row">
+            <span id="modalLocation"><i class="fa-solid fa-location-dot"></i> Location</span>
+            <span id="modalCoordinates"><i class="fa-solid fa-compass"></i> Coordinates</span>
+            <span id="modalReportCount"><i class="fa-solid fa-newspaper"></i> 2 Reports</span>
+          </div>
+        </div>
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Synthesized T5 Emergency Advisory Callout -->
+        <div class="advisory-box">
+          <div class="advisory-label">
+            <i class="fa-solid fa-bullhorn"></i> FACTUAL EMERGENCY ADVISORY (T5-SMALL)
+          </div>
+          <p class="advisory-text" id="modalAdvisorySummary">
+            Generating factual emergency advisory...
+          </p>
+        </div>
+
+        <!-- Trust & NLI Metrics Cards -->
+        <div class="veracity-breakdown-grid">
+          <div class="metric-box">
+            <div class="metric-label">TRUST SCORE</div>
+            <div class="metric-val" id="modalTrustScore">0.00</div>
+            <div class="metric-sub" id="modalTrustBand">VERIFIED</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">NLI AGREEMENT</div>
+            <div class="metric-val text-blue" id="modalNliAgreement">0.00</div>
+            <div class="metric-sub">DeBERTa-v3 cross-check</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">SOURCES CONFIRMED</div>
+            <div class="metric-val text-green" id="modalSourceCount">0</div>
+            <div class="metric-sub" id="modalSourceTypes">Independent Outlets</div>
+          </div>
+        </div>
+
+        <!-- Mathematical Veracity Audit Formula (Viva Defense Section) -->
+        <div class="audit-section">
+          <div class="audit-header">
+            <h3><i class="fa-solid fa-calculator"></i> Mathematical Trust Formula Breakdown</h3>
+            <span class="formula-code">Trust = (w_source &times; S_auth) + (w_corrob &times; Corrob_Factor) &minus; Penalty</span>
+          </div>
+
+          <div class="audit-grid">
+            <div class="audit-card">
+              <div class="audit-card-title">SOURCE AUTHORITY (S_auth)</div>
+              <div class="audit-card-val text-green" id="auditSourceAuth">0.00</div>
+              <div class="audit-card-sub" id="auditSourceAuthWeight">Weight: 50% &rarr; Value: +0.00</div>
+              <div class="audit-card-desc" id="auditSourceAuthDesc">Source credibility rating</div>
+            </div>
+
+            <div class="audit-card">
+              <div class="audit-card-title">INDEPENDENT CORROBORATION</div>
+              <div class="audit-card-val text-blue" id="auditCorrobFactor">0.00</div>
+              <div class="audit-card-sub" id="auditCorrobWeight">Weight: 50% &rarr; Value: +0.00</div>
+              <div class="audit-card-desc" id="auditCorrobDesc">Cross-source confirmation count</div>
+            </div>
+
+            <div class="audit-card">
+              <div class="audit-card-title">CONTRADICTION PENALTY</div>
+              <div class="audit-card-val text-red" id="auditPenalty">-0.00</div>
+              <div class="audit-card-sub" id="auditContraStatus">DeBERTa-v3 Check</div>
+              <div class="audit-card-desc" id="auditPenaltyDesc">Factual dispute deduction</div>
+            </div>
+          </div>
+
+          <div class="audit-verdict-box" id="auditVerdictBox">
+            <div class="verdict-label"><i class="fa-solid fa-graduation-cap"></i> AUDIT & VIVA DEFENSE EXPLANATION:</div>
+            <p class="verdict-text" id="auditExplanationText">Loading audit rationale...</p>
+          </div>
+        </div>
+
+        <!-- Member Reports List -->
+        <div class="reports-section">
+          <h3><i class="fa-solid fa-file-lines"></i> Underlying Corroborating Reports</h3>
+          <div class="member-reports-list" id="modalMemberReports">
+            <!-- Populated dynamically via app.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" id="modalFlyToBtn"><i class="fa-solid fa-location-arrow"></i> Locate on Map</button>
+        <button class="btn-secondary" id="modalCloseBottomBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline Execution Progress Modal -->
+  <div class="modal-backdrop" id="pipelineProgressModal">
+    <div class="modal-content modal-pipeline">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-tag">MULTI-AGENT ORCHESTRATOR</span>
+          <h2 id="pipelineModalTitle">End-to-End Pipeline Execution</h2>
+          <div class="modal-meta-row">
+            <span id="pipelineElapsedTime"><i class="fa-solid fa-stopwatch"></i> Elapsed: 0s</span>
+            <span id="pipelineCurrentStage"><i class="fa-solid fa-diagram-project"></i> Ready</span>
+          </div>
+        </div>
+        <button class="modal-close" id="pipelineModalCloseBtn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="pipelineProgressFill" style="width: 0%;"></div>
+        </div>
+        <div class="progress-pct-display" id="pipelineProgressPct">0% Completed</div>
+
+        <!-- 5-Stage Stepper -->
+        <div class="pipeline-stepper">
+          <div class="step-badge" id="stepBadge1">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <div class="step-name">Ingestion</div>
+              <div class="step-detail">5 Collectors</div>
+            </div>
+          </div>
+          <div class="step-badge" id="stepBadge2">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <div class="step-name">Classification</div>
+              <div class="step-detail">Relevance Cutoff</div>
+            </div>
+          </div>
+          <div class="step-badge" id="stepBadge3">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <div class="step-name">Geocoding</div>
+              <div class="step-detail">spaCy + Nominatim</div>
+            </div>
+          </div>
+          <div class="step-badge" id="stepBadge4">
+            <div class="step-num">4</div>
+            <div class="step-info">
+              <div class="step-name">NLI Veracity</div>
+              <div class="step-detail">DeBERTa-v3 Trust</div>
+            </div>
+          </div>
+          <div class="step-badge" id="stepBadge5">
+            <div class="step-num">5</div>
+            <div class="step-info">
+              <div class="step-name">Summarization</div>
+              <div class="step-detail">T5 Public Alerts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Terminal Logs Console -->
+        <div class="pipeline-console">
+          <div class="console-header">
+            <span><i class="fa-solid fa-terminal"></i> Real-Time Execution Telemetry</span>
+            <span class="console-status" id="pipelineConsoleStatus">Streaming logs...</span>
+          </div>
+          <div class="console-logs" id="pipelineConsoleLogs">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" id="btnPipelineDone" style="display: none;"><i class="fa-solid fa-check"></i> Close & View Updated Map</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Application Logic -->
+  <script src="/static/app.js?v=1.2"></script>
+</body>
+</html>

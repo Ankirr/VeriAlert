@@ -1,0 +1,93 @@
+=== TOTAL CLUSTERS: 29 ===
+Cluster: 'Hill slip thwarts train services on Kalka-Shimla route,' | Type: landslide | Loc: 'Shimla' | (31.104039, 77.170792) | Reports: 1
+Cluster: '40 high-hazard glacial lakes identified in Sikkim, 16 a' | Type: general_disaster | Loc: 'Sikkim' | (27.601611, 88.45502) | Reports: 1
+Cluster: 'Odisha govt unveils ₹1,000 crore relief package for flo' | Type: flood | Loc: 'Odisha' | (20.543124, 84.689732) | Reports: 1
+Cluster: 'Weather Today August 23: Heavy rain alert for Uttarakha' | Type: general_disaster | Loc: 'Uttarakhand' | (30.041738, 79.089691) | Reports: 1
+Cluster: 'Ganga water level crosses warning mark in Varanasi, ris' | Type: flood | Loc: 'Varanasi' | (25.335649, 83.007629) | Reports: 1
+Cluster: 'IMD issues orange alert for Uttarakhand as rain lashes ' | Type: general_disaster | Loc: 'Dehradun' | (30.325565, 78.043681) | Reports: 1
+Cluster: 'Low pressure, monsoon trough over city, more rain likel' | Type: flood | Loc: 'Kolkata' | (22.572646, 88.363895) | Reports: 1
+Cluster: 'Himachal Pradesh to see active monsoon till September 3' | Type: general_disaster | Loc: 'Himachal Pradesh' | (31.929235, 77.182846) | Reports: 1
+Cluster: 'Weather tomorrow: IMD forecasts rain across several sta' | Type: general_disaster | Loc: 'Bihar' | (25.644085, 85.906508) | Reports: 1
+Cluster: 'Severe waterlogging on Outer Ring Road, Bengaluru after' | Type: flood | Loc: 'Bengaluru' | (12.976794, 77.590082) | Reports: 1
+Cluster: 'NDMA Sachet Alert: Flash Flood Warning in Brahmaputra R' | Type: flood | Loc: 'Dibrugarh' | (27.48446, 94.901945) | Reports: 1
+Cluster: 'Rebuilding in Nepal-Tibet will be challenging – communi' | Type: landslide | Loc: '拉萨市 ལྷ་ས་གྲོང་ཁྱེར།' | (29.654205, 91.117301) | Reports: 2
+Cluster: 'UN aims to raise nearly $50 million for Nepal flood res' | Type: flood | Loc: 'Nepal' | (28.378046, 83.99999) | Reports: 1
+Cluster: 'The collapse of a mountainside triggered Nepal’s devast' | Type: flood | Loc: 'Tibet' | (27.973536, 85.964247) | Reports: 10
+Cluster: 'China exerts tight grip on information after floods' | Type: flood | Loc: '北京市' | (39.905714, 116.391297) | Reports: 2
+Cluster: 'Lagrangian tracking of the East India Coastal Current d' | Type: cyclone | Loc: 'West Bengal' | (22.996495, 87.685588) | Reports: 3
+Cluster: 'Earthquake tremors felt in Guwahati, Assam around 2 min' | Type: earthquake | Loc: 'Guwahati' | (26.180598, 91.753943) | Reports: 1
+Cluster: 'IMD Severe Weather Warning: Severe Heatwave conditions ' | Type: heatwave | Loc: 'Jaipur Municipal Corporation' | (26.8408, 75.811614) | Reports: 1
+Cluster: 'NDMA Sachet Advisory: Urban Waterlogging & Lightning Wa' | Type: flood | Loc: 'Mumbai' | (19.054999, 72.869203) | Reports: 2
+Cluster: 'Rivers breach danger mark in Bihar, portend more floodi' | Type: flood | Loc: 'Bihar' | (25.286135, 87.130423) | Reports: 1
+Cluster: 'Delhi weather: IGI Airport witnesses waterlogging, airl' | Type: general_disaster | Loc: 'Delhi' | (28.666453, 77.216978) | Reports: 6
+Cluster: 'West Bengal formulating plan to address riverbank erosi' | Type: flood | Loc: 'West Bengal' | (22.996495, 87.685588) | Reports: 1
+Cluster: 'Bihar: Flood situation remains grim in Saran as Ganga, ' | Type: flood | Loc: 'Chapra' | (25.773344, 84.784977) | Reports: 1
+Cluster: 'IMD Red Alert: Extremely heavy rainfall predicted acros' | Type: flood | Loc: 'Baikampady' | (12.960147, 74.813728) | Reports: 1
+Cluster: 'Trapped Nepal workers pulled alive from tunnel 9 days a' | Type: flood | Loc: 'Nepal' | (28.378046, 83.99999) | Reports: 5
+Cluster: 'Weather Tomorrow August 24: Heavy rain alert for Odisha' | Type: general_disaster | Loc: 'Odisha' | (20.543124, 84.689732) | Reports: 1
+Cluster: 'NDMA Sachet Alert: Landslide Risk High along Rishikesh-' | Type: landslide | Loc: 'Badrinath' | (30.74233, 79.493026) | Reports: 1
+Cluster: 'Tibet flash flood death toll rises to 31, another 531 m' | Type: flood | Loc: '拉萨市 ལྷ་ས་གྲོང་ཁྱེར།' | (29.654205, 91.117301) | Reports: 1
+Cluster: 'School holiday tomorrow, September 2? Check latest stat' | Type: general_disaster | Loc: 'Himachal Pradesh' | (31.929235, 77.182846) | Reports: 1
+
+=== RAW ITEMS ===
+ 1. Title: 'Delhi-NCR Weather Today: Will it rain in Delhi, Noida, ' | Loc: 'Delhi' | (28.666453, 77.216978)
+ 2. Title: 'Why Nepal floods should worry India' | Loc: 'Kosi River Basin, Bihar' | (None, None)
+ 3. Title: 'As climate change warms the Himalayas, disasters like t' | Loc: 'Nepal' | (None, None)
+ 4. Title: 'Early warning of the Gohna lake burst of 1894' | Loc: 'Ganga Basin, India' | (None, None)
+ 5. Title: 'Facts and evidence on one side, accusations and rumors ' | Loc: 'Nepal' | (None, None)
+ 6. Title: 'Low pressure, monsoon trough over city, more rain likel' | Loc: 'Kolkata' | (22.572646, 88.363895)
+ 7. Title: 'Nepal’s Floods Upset Its China-India Balancing Act' | Loc: '朝阳区' | (39.943436, 116.444965)
+ 8. Title: 'Nepal flood disaster puts climate justice under spotlig' | Loc: 'Nepal' | (None, None)
+ 9. Title: 'The Ghoulish Race to Turn Nepal’s Flood Victims Into a ' | Loc: 'Nepal' | (None, None)
+10. Title: 'IMD issues orange alert for Uttarakhand as rain lashes ' | Loc: 'Dehradun' | (30.325565, 78.043681)
+11. Title: 'How the Chinese Government Has Controlled the Narrative' | Loc: 'Nepal' | (None, None)
+12. Title: 'Himachal Pradesh to see active monsoon till September 3' | Loc: 'Himachal Pradesh' | (31.929235, 77.182846)
+13. Title: 'Blood samples from relatives of missing persons in Nepa' | Loc: 'Nepal' | (28.378046, 83.99999)
+14. Title: '40 high-hazard glacial lakes identified in Sikkim, 16 a' | Loc: 'Sikkim' | (27.601611, 88.45502)
+15. Title: 'Odisha govt unveils ₹1,000 crore relief package for flo' | Loc: 'Odisha' | (20.543124, 84.689732)
+16. Title: 'Nepal floods show the risk; China's mega-dam raises big' | Loc: 'Nepal' | (None, None)
+17. Title: 'Evening newswrap: Terrorist behind IAF convoy attack ki' | Loc: 'Nepal' | (None, None)
+18. Title: 'Earthquake tremors felt in Guwahati, Assam around 2 min' | Loc: 'Guwahati' | (26.180598, 91.753943)
+19. Title: 'China exerts tight grip on information after floods' | Loc: '北京市' | (39.905714, 116.391297)
+20. Title: 'Weather tomorrow: IMD forecasts rain across several sta' | Loc: 'Bihar' | (25.644085, 85.906508)
+21. Title: ''A rare moment of joy': Nepal tunnel rescues give hope ' | Loc: 'Tibet' | (27.973536, 85.964247)
+22. Title: 'Ganga water level crosses warning mark in Varanasi, ris' | Loc: 'Varanasi' | (25.335649, 83.007629)
+23. Title: 'The Himalayas Are Sending a Strategic Warning' | Loc: 'Nepal' | (28.378046, 83.99999)
+24. Title: 'NDMA Sachet Advisory: Urban Waterlogging & Lightning Wa' | Loc: 'Mumbai' | (19.054999, 72.869203)
+25. Title: 'Nepal flood losses estimated at $2.56 billion, official' | Loc: 'Tibet' | (27.973536, 85.964247)
+26. Title: 'Severe waterlogging on Outer Ring Road, Bengaluru after' | Loc: 'Bengaluru' | (12.976794, 77.590082)
+27. Title: 'Flooding in Kurla and Dadar after intense cloudburst in' | Loc: 'Mumbai' | (19.054999, 72.869203)
+28. Title: 'Rivers breach danger mark in Bihar, portend more floodi' | Loc: 'Bihar' | (25.286135, 87.130423)
+29. Title: 'IMD Bulletin: Depression over Bay of Bengal likely to i' | Loc: 'West Bengal' | (22.996495, 87.685588)
+30. Title: 'When Disaster Strikes: What's Happening in Nepal and Xi' | Loc: '拉萨市 ལྷ་ས་གྲོང་ཁྱེར།' | (29.654205, 91.117301)
+31. Title: 'India stands shoulder to shoulder with Nepal after Bhot' | Loc: 'सिन्धुपाल्चोक जिल्ला' | (27.932976, 85.905816)
+32. Title: 'Delhi sees humid day; heavy rain alert issued for easte' | Loc: 'Delhi' | (28.666453, 77.216978)
+33. Title: 'Nepal rescuers try to reach dozens trapped in tunnel af' | Loc: 'Tibet' | (27.973536, 85.964247)
+34. Title: 'Delhi weather: IGI Airport witnesses waterlogging, airl' | Loc: 'Delhi' | (28.666453, 77.216978)
+35. Title: 'Bhotekoshi flood-affected families to be rehabilitated ' | Loc: 'सिन्धुपाल्चोक जिल्ला' | (27.932976, 85.905816)
+36. Title: 'Hill slip thwarts train services on Kalka-Shimla route,' | Loc: 'Shimla' | (31.104039, 77.170792)
+37. Title: 'IMD Red Alert: Extremely heavy rainfall predicted acros' | Loc: 'Baikampady' | (12.960147, 74.813728)
+38. Title: 'Massive dust storm hitting parts of Delhi NCR right now' | Loc: 'Delhi' | (28.666453, 77.216978)
+39. Title: 'NDMA Sachet Alert: Flash Flood Warning in Brahmaputra R' | Loc: 'Dibrugarh' | (27.48446, 94.901945)
+40. Title: 'Did Climate Change Cause the Flooding in Nepal?' | Loc: 'Nepal' | (28.378046, 83.99999)
+41. Title: 'Lagrangian tracking of the East India Coastal Current d' | Loc: 'West Bengal' | (22.996495, 87.685588)
+42. Title: 'The collapse of a mountainside triggered Nepal’s devast' | Loc: 'Tibet' | (27.973536, 85.964247)
+43. Title: 'West Bengal formulating plan to address riverbank erosi' | Loc: 'West Bengal' | (22.996495, 87.685588)
+44. Title: 'School holiday tomorrow, September 2? Check latest stat' | Loc: 'Himachal Pradesh' | (31.929235, 77.182846)
+45. Title: 'UN aims to raise nearly $50 million for Nepal flood res' | Loc: 'Nepal' | (28.378046, 83.99999)
+46. Title: 'NDMA Sachet Alert: Landslide Risk High along Rishikesh-' | Loc: 'Badrinath' | (30.74233, 79.493026)
+47. Title: 'Weather tomorrow: IMD warns of extremely heavy rain in ' | Loc: 'West Bengal' | (22.996495, 87.685588)
+48. Title: 'Fatal Floods Expose Threats to Hydropower in the Roof o' | Loc: 'Tibet' | (27.973536, 85.964247)
+49. Title: 'Balen promises safe, comfortable shelter for flood-hit ' | Loc: 'सिन्धुपाल्चोक जिल्ला' | (27.932976, 85.905816)
+50. Title: 'Rebuilding in Nepal-Tibet will be challenging – communi' | Loc: '拉萨市 ལྷ་ས་གྲོང་ཁྱེར།' | (29.654205, 91.117301)
+51. Title: 'Trapped Nepal workers pulled alive from tunnel 9 days a' | Loc: 'Nepal' | (28.378046, 83.99999)
+52. Title: 'Waterlogging In Delhi, Red Alert For Heavy Rain, Flight' | Loc: 'Delhi' | (28.666453, 77.216978)
+53. Title: 'As climate change warms the Himalayas, disasters like t' | Loc: 'काठमाडौँ महानगरपालिका' | (27.731443, 85.330015)
+54. Title: 'Weather Today August 23: Heavy rain alert for Uttarakha' | Loc: 'Uttarakhand' | (30.041738, 79.089691)
+55. Title: 'IMD Severe Weather Warning: Severe Heatwave conditions ' | Loc: 'Jaipur Municipal Corporation' | (26.8408, 75.811614)
+56. Title: 'From airport to CP: 5 videos capture Delhi’s waterloggi' | Loc: 'Delhi' | (28.666453, 77.216978)
+57. Title: 'Bihar: Flood situation remains grim in Saran as Ganga, ' | Loc: 'Chapra' | (25.773344, 84.784977)
+58. Title: 'Weather Tomorrow August 24: Heavy rain alert for Odisha' | Loc: 'Odisha' | (20.543124, 84.689732)
+59. Title: 'Bhotekoshi flood: Govt continues search and rescue oper' | Loc: 'सिन्धुपाल्चोक जिल्ला' | (27.932976, 85.905816)
+60. Title: 'Nepal Pays the Price for Climate Change' | Loc: 'Nepal' | (28.378046, 83.99999)
+61. Title: 'Tibet flash flood death toll rises to 31, another 531 m' | Loc: '拉萨市 ལྷ་ས་གྲོང་ཁྱེར།' | (29.654205, 91.117301)
